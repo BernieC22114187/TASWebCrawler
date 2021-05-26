@@ -41,7 +41,7 @@ button = button.find_element(By.CLASS_NAME, "primary")
 
 button.click()
 
-time.sleep(4)
+time.sleep(4) 
 
 week = driver.find_element(By.XPATH, "/html/body/main/div/div[1]/div[3]/div/div[2]/div/div[1]/ul")
 days = week.find_elements(By.CLASS_NAME, "day")
