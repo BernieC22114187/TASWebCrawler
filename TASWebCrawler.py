@@ -1,3 +1,14 @@
+
+def generically_filter(something, include): 
+    results = list() 
+    for each in something: 
+        if each in include: 
+            results.append(each)
+         
+    return results 
+
+
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -22,8 +33,8 @@ class color:
 # options = webdriver.ChromeOptions()
 
 
-driver = webdriver.Chrome(r"c:\Users\22berniec\Desktop\chromedriver")
-driver.get("https://tas.nutrislice.com/menu/tas/serving-line")
+driver = webdriver.Chrome(r"C:\Users\22berniec\Desktop\chromedriver_win32\chromedriver")
+driver.get("https://tas.nutrislice.com/menu/tas/serving-line/2021-05-16")
 
 wait = WebDriverWait(driver, 10)
 wait.until(expected_conditions.visibility_of_all_elements_located((By.XPATH, "/html/body/main/div/div[4]/p" )))
@@ -41,8 +52,12 @@ button = button.find_element(By.CLASS_NAME, "primary")
 
 button.click()
 
-time.sleep(4) 
 
+wait = WebDriverWait(driver, 10)
+wait.until(expected_conditions.visibility_of_all_elements_located((By.XPATH, "/html/body/main/div/div[1]/div[3]/div/div[11]" )))
+
+
+time.sleep(4)
 week = driver.find_element(By.XPATH, "/html/body/main/div/div[1]/div[3]/div/div[2]/div/div[1]/ul")
 days = week.find_elements(By.CLASS_NAME, "day")
 for day in days:
@@ -69,18 +84,33 @@ for day in days:
         infocontainer = tabActive.find_element(By.CLASS_NAME, "info-container")
 
         calories = infocontainer.find_element(By.CLASS_NAME, "calories")
-        print(calories.text, end = " ")
+        text = ''.join(generically_filter(calories.text, '0123456789.')) 
+        print(text, end = " ")
         infocontainer = infocontainer.find_element(By.CLASS_NAME, "info-container")
         fatSodium = infocontainer.find_element(By.CLASS_NAME, "fat-sodium")
+        
         totalFat = fatSodium.find_element(By.TAG_NAME, "dd")
-        print("Total Fat: ", totalFat.text, end = " ")
+        text = ''.join(generically_filter(totalFat.text, '0123456789.')) 
+        print("Total Fat: ", text, end = " ")
+        
         carbs = fatSodium.find_elements(By.TAG_NAME, "dd")
+        cholesterol = carbs[2]
+        text = ''.join(generically_filter(cholesterol.text, '0123456789.')) 
+        print("Cholesterol: ", text, end = " ")
+        protein = carbs[6]
+        text = ''.join(generically_filter(protein.text, '0123456789.')) 
+        print("Protein: ", text, end = " ")
+        sodium = carbs[3]
+        text = ''.join(generically_filter(sodium.text, '0123456789.')) 
+        print("Sodium: ", text, end = " ")
         carbs = carbs[4]
-        print("Total Carbs: ", carbs.text, end = " ]")
-
+        text = ''.join(generically_filter(carbs.text, '0123456789.')) 
+        print("Total Carbs: ", text, end = " ]")
+        
         modal = modalList.find_element_by_css_selector("li.modal.active")
         close = modal.find_element_by_css_selector("a.modal-carousel.close")
         close.click()
+        ###############
         
 
     print("Sides: ", end = "")
@@ -104,14 +134,32 @@ for day in days:
         infocontainer = tabActive.find_element(By.CLASS_NAME, "info-container")
 
         calories = infocontainer.find_element(By.CLASS_NAME, "calories")
-        print(calories.text, end = " ")
+        text = ''.join(generically_filter(calories.text, '0123456789.')) 
+        print(text, end = " ")
         infocontainer = infocontainer.find_element(By.CLASS_NAME, "info-container")
         fatSodium = infocontainer.find_element(By.CLASS_NAME, "fat-sodium")
         totalFat = fatSodium.find_element(By.TAG_NAME, "dd")
-        print("Total Fat: ", totalFat.text, end = " ")
+        text = ''.join(generically_filter(totalFat.text, '0123456789.')) 
+        print("Total Fat: ", text, end = " ")
+        
         carbs = fatSodium.find_elements(By.TAG_NAME, "dd")
+        cholesterol = carbs[2]
+        text = ''.join(generically_filter(cholesterol.text, '0123456789.')) 
+        print("Cholesterol: ", text, end = " ")
+        protein = carbs[6]
+        text = ''.join(generically_filter(protein.text, '0123456789.')) 
+        print("Protein: ", text, end = " ")
+        sodium = carbs[3]
+        text = ''.join(generically_filter(sodium.text, '0123456789.')) 
+        print("Sodium: ", text, end = " ")
         carbs = carbs[4]
-        print("Total Carbs: ", carbs.text, end = " ]")
+        text = ''.join(generically_filter(carbs.text, '0123456789.')) 
+        print("Total Carbs: ", text, end = " ]")
+        # totalFat = fatSodium.find_element(By.TAG_NAME, "dd")
+        # print("Total Fat: ", totalFat.text, end = " ")
+        # carbs = fatSodium.find_elements(By.TAG_NAME, "dd")
+        # carbs = carbs[4]
+        # print("Total Carbs: ", carbs.text, end = " ]")
 
         modal = modalList.find_element_by_css_selector("li.modal.active")
         close = modal.find_element_by_css_selector("a.modal-carousel.close")
@@ -120,6 +168,7 @@ for day in days:
     dishes = item.find_elements(By.TAG_NAME, "ul")
     dishes = dishes[2]
     dishes = dishes.find_elements(By.CLASS_NAME, "food-card")
+   
     for dish in dishes:
         dishName = dish.find_element(By.CLASS_NAME, "food-name")
         print(dishName.text, end = ": [")
@@ -137,17 +186,36 @@ for day in days:
         infocontainer = tabActive.find_element(By.CLASS_NAME, "info-container")
 
         calories = infocontainer.find_element(By.CLASS_NAME, "calories")
-        print(calories.text, end = " ")
+        text = ''.join(generically_filter(calories.text, '0123456789.')) 
+        print(text, end = " ")
+        
         infocontainer = infocontainer.find_element(By.CLASS_NAME, "info-container")
         fatSodium = infocontainer.find_element(By.CLASS_NAME, "fat-sodium")
         totalFat = fatSodium.find_element(By.TAG_NAME, "dd")
-        print("Total Fat: ", totalFat.text, end = " ")
+        text = ''.join(generically_filter(totalFat.text, '0123456789.')) 
+        print("Total Fat: ", text, end = " ")
+        
         carbs = fatSodium.find_elements(By.TAG_NAME, "dd")
+        cholesterol = carbs[2]
+        text = ''.join(generically_filter(cholesterol.text, '0123456789.')) 
+        print("Cholesterol: ", text, end = " ")
+        protein = carbs[6]
+        text = ''.join(generically_filter(protein.text, '0123456789.')) 
+        print("Protein: ", text, end = " ")
+        sodium = carbs[3]
+        text = ''.join(generically_filter(sodium.text, '0123456789.')) 
+        print("Sodium: ", text, end = " ")
         carbs = carbs[4]
-        print("Total Carbs: ", carbs.text, end = " ]")
+        text = ''.join(generically_filter(carbs.text, '0123456789.')) 
+        print("Total Carbs: ", text, end = " ]")
+        # totalFat = fatSodium.find_element(By.TAG_NAME, "dd")
+        # print("Total Fat: ", totalFat.text, end = " ")
+        # carbs = fatSodium.find_elements(By.TAG_NAME, "dd")
+        # carbs = carbs[4]
+        # print("Total Carbs: ", carbs.text, end = " ]")
 
         modal = modalList.find_element_by_css_selector("li.modal.active")
         close = modal.find_element_by_css_selector("a.modal-carousel.close")
         close.click()
         
-    print(); print();
+    
